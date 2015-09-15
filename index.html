@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="lib/ramda/dist/ramda.min.js"></script>
+    <script src="lib/lodash/lodash.min.js"></script>
+    <script src="lib/moment/min/moment.min.js"></script>
+
+  </head>
+  <body ng-app="starter">
+
+    <script id="aboutModal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar>
+          About
+        </ion-header-bar>
+        <ion-content class="padding">
+          Clicker Heroes Ancient Optimizer Mobile version
+          Based on <a href="http://hsoptimizer.github.io/ancient/">http://hsoptimizer.github.io/ancient/</a> by <a href="https://reddit.com/u/findmeanewone">/u/findmeanewone</a>
+          <br>Created by <a href="https://reddit.com/u/KrupukTahlilan">/u/KrupukTahlilan</a>
+          <button class="button button-full button-assertive" ng-click="closeModal()">Close</button>
+        </ion-content>
+      </ion-modal-view>
+
+    </script>
+
+    <ion-pane ng-controller="app">
+      <ion-header-bar class="bar-stable">
+        <h1 class="title" ng-click="about()">CH Ancient Optimizer v{{version}}</h1>
+      </ion-header-bar>
+      <ion-content>
+        <ion-list>
+          <ion-item class="item-checkbox">
+            <label for="" class="checkbox">
+              <input type="checkbox" ng-click="toggleIncludeSoulAfterAscension()">
+            </label>
+            Include souls after ascension
+          </ion-item>
+          <ion-item class="item-checkbox" ng-hide="true">
+            <label for="" class="checkbox">
+              <input type="checkbox" ng-click="toggleIgnoreIris()" ng-checked="true" ng-model="ignoreIris">
+            </label>
+            Ignore Iris
+          </ion-item>
+          <ion-item class="item-input item-stacked-label" ng-show="!ignoreIris">
+            <span class="input-label">Starting Zone</span>
+            <input type="number" ng-model="startingZone">
+          </ion-item>
+          <ion-item class="item-checkbox">
+            <label for="" class="checkbox">
+              <input type="checkbox" ng-click="toggleEzSolomon()">
+            </label>
+            Easier Solomon
+          </ion-item>
+          <ion-item class="item-input item-select">
+            <div class="input-label">
+              Playstyle
+            </div>
+            <select name="" id="playstyle" ng-model="playstyle" ng-change="playstyleChanged(item)" ng-options="item.toUpperCase() for item in listPlaystyle"></select>
+          </ion-item>
+          <ion-item>
+            <button class="button button-full button-balanced" ng-click="optimize()">Do the math!</button>
+          </ion-item>
+          <ion-item class="item-divider"></ion-item>
+          <ion-item class="item-input item-stacked-label" ng-repeat="(key, value) in anc track by $index" ng-hide="$index !== 0">
+            <span class="input-label" ng-bind="value.Name"></span>
+            <input type="number" ng-model="value.levelOld">
+            <span class="input-label" ng-show="value.levelNew">Target : <b ng-bind="value.levelNew"></b></span>
+          </ion-item>
+          <ion-item class="item-divider"></ion-item>
+          <ion-item class="item-input item-stacked-label" ng-repeat="(key, value) in anc track by $index" ng-hide="$index == 0 || hideAncient(value)">
+            <span class="input-label" ng-bind="value.Name"></span>
+            <input type="number" ng-model="value.levelOld">
+            <span class="input-label" ng-show="value.levelNew">Target : <b ng-bind="value.levelNew"></b></span>
+            <ion-option-button class="button-assertive" ng-click="toggleHideAncient(value)">Hide</ion-option-button>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
